@@ -1,0 +1,5 @@
+.kitchen/
+.kitchen.local.yml
+Berksfile.lock
+test/Berksfile.lock
+Gemfile.lock
