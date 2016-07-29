@@ -11,3 +11,4 @@ source_url 'https://github.com/inviqa/chef-certbot'
 
 depends 'nginx', '< 3'
 depends 'cron'
+depends 'yum-epel'
