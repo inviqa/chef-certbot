@@ -34,5 +34,6 @@ end
   directory path do
     owner node['certbot']['sandbox']['user']
     group node['certbot']['sandbox']['group']
+    recursive true
   end
 end
