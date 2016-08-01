@@ -38,6 +38,6 @@ end
   directory path do
     owner node['certbot']['sandbox']['user']
     group node['certbot']['sandbox']['group']
-    notifies :run, "execute[chown #{path}", :immediately
+    notifies :run, "execute[chown #{path}]", :immediately
   end
 end
