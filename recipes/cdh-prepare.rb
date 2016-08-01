@@ -25,3 +25,5 @@ end
     node.set[server]['sites'][name]['ssl']['keyfile'] = "#{ssl_directory}/privkey.pem"
   end
 end
+
+include_recipe 'config-driven-helper::ssl-cert-self-signed'
