@@ -22,5 +22,12 @@ group_domains.each do |group_name, domains|
     domains domains
     expand true
     agree_tos true
+    action :nothing
+  end
+
+  log "delayed certbot_certonly_webroot execution (#{group_name})" do
+    message "certbot::cdh queueing actions [:create] for certbot_certonly_webroot #{group_name}"
+    level :debug
+    notifies :create, "certbot_certonly_webroot[#{group_name}]", :delayed
   end
 end

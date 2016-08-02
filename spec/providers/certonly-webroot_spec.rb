@@ -16,6 +16,9 @@ describe 'certbot::cdh' do
     end
 
     it "will create a single shared certificate" do
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (shared)')
+      expect(resource).to notify('certbot_certonly_webroot[shared]').to(:create).delayed
+      chef_run.certbot_certonly_webroot('shared').old_run_action :create
       expect(chef_run).to run_execute('certbot certonly --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev,mysite2.dev,js.mysite2.dev,css.mysite2.dev --expand --agree-tos --non-interactive').with({
         user: 'certbot'
       })
@@ -59,6 +62,13 @@ describe 'certbot::cdh' do
     end
 
     it "will create a separate certificate per site when use_sni is on" do
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite1)')
+      expect(resource).to notify('certbot_certonly_webroot[mysite1]').to(:create).delayed
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite2)')
+      expect(resource).to notify('certbot_certonly_webroot[mysite2]').to(:create).delayed
+      chef_run.certbot_certonly_webroot('mysite1').old_run_action :create
+      chef_run.certbot_certonly_webroot('mysite2').old_run_action :create
+
       expect(chef_run).to run_execute('certbot certonly --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --expand --agree-tos --non-interactive').with({
         user: 'certbot'
       })
@@ -68,6 +78,10 @@ describe 'certbot::cdh' do
     end
 
     it "will create a group of certificates per san_group" do
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite34)')
+      expect(resource).to notify('certbot_certonly_webroot[mysite34]').to(:create).delayed
+      chef_run.certbot_certonly_webroot('mysite34').old_run_action :create
+
       expect(chef_run).to run_execute('certbot certonly --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite3.dev,mysite4.dev --expand --agree-tos --non-interactive').with({
         user: 'certbot'
       })
