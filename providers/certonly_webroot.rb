@@ -17,8 +17,10 @@ action :create do
 
   options_array = options.map do |key, value|
 
-    if value === true || value === false
+    if value === true
       ["--#{key}"]
+    elsif value === false
+      []
     else
       ["--#{key}", value]
     end
