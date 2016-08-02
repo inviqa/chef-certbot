@@ -1,7 +1,7 @@
 describe 'certbot::cdh' do
   context 'with a shared nginx site configuration' do
     cached(:chef_run) do
-      ChefSpec::SoloRunner.new do |node|
+      ChefSpec::SoloRunner.new(step_into: ['certbot_certonly_webroot']) do |node|
         node.set['nginx']['sites']['mysite1'] = {
           server_name: 'mysite1.dev',
           protocols: ['http', 'https']
@@ -24,7 +24,7 @@ describe 'certbot::cdh' do
 
   context 'with a split nginx site configuration' do
     cached(:chef_run) do
-      ChefSpec::SoloRunner.new do |node|
+      ChefSpec::SoloRunner.new(step_into: ['certbot_certonly_webroot']) do |node|
         node.set['nginx']['sites']['mysite1'] = {
           server_name: 'mysite1.dev',
           protocols: ['http', 'https'],
