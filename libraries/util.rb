@@ -1,6 +1,6 @@
 module Certbot
   module Util
-    extends self
+    extend self
 
     def self_signed_certificate?(certfile)
       self_signed_issuer = `openssl x509 -in #{certfile} -issuer -noout`.sub(/^issuer=/, '')
