@@ -3,11 +3,13 @@ describe 'certbot::cdh' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
         node.set['nginx']['sites']['mysite1'] = {
-          server_name: 'mysite1.dev'
+          server_name: 'mysite1.dev',
+          protocols: ['http', 'https']
         }
         node.set['nginx']['sites']['mysite2'] = {
           server_name: 'mysite2.dev',
           server_aliases: ['js.mysite2.dev', 'css.mysite2.dev'],
+          protocols: ['http', 'https']
         }
         node.set['certbot']['cert-owner']['email'] = 'root@localhost'
       end.converge(described_recipe)
@@ -25,6 +27,7 @@ describe 'certbot::cdh' do
       ChefSpec::SoloRunner.new do |node|
         node.set['nginx']['sites']['mysite1'] = {
           server_name: 'mysite1.dev',
+          protocols: ['http', 'https'],
           ssl: {
             use_sni: true
           }
@@ -32,18 +35,21 @@ describe 'certbot::cdh' do
         node.set['nginx']['sites']['mysite2'] = {
           server_name: 'mysite2.dev',
           server_aliases: ['js.mysite2.dev', 'css.mysite2.dev'],
+          protocols: ['http', 'https'],
           ssl: {
             use_sni: true
           }
         }
         node.set['nginx']['sites']['mysite3'] = {
           server_name: 'mysite3.dev',
+          protocols: ['http', 'https'],
           ssl: {
             san_group: 'mysite34'
           }
         }
         node.set['nginx']['sites']['mysite4'] = {
           server_name: 'mysite4.dev',
+          protocols: ['http', 'https'],
           ssl: {
             san_group: 'mysite34'
           }
