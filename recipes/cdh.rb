@@ -3,6 +3,8 @@ group_domains = {}
   next unless node[server] && node[server]['sites']
 
   node[server]['sites'].each do |name, site|
+    next unless site['protocols'].include?('https')
+
     group_name = site['ssl'] && (site['ssl']['san_group'] || (site['ssl']['use_sni'] ? name : 'shared'))
     group_domains[group_name] ||= []
     group_domains[group_name] << site['server_name']
