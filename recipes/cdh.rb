@@ -9,9 +9,10 @@ group_domains = {}
     group_name ||= name if site['ssl'] && site['ssl']['use_sni']
     group_name ||= 'shared'
 
-    group_domains[group_name] ||= {domains:[]}
+    group_domains[group_name] ||= {domains:[], servers: []}
     group_domains[group_name][:domains] << site['server_name']
     group_domains[group_name][:domains] += site['server_aliases'] if site['server_aliases']
+    group_domains[group_name][:servers] << server
 
     ssl_directory = "/etc/letsencrypt/live/#{group_domains[group_name][:domains].first}"
     case server
@@ -59,5 +60,9 @@ group_domains.each do |group_name, certificate_data|
     expand true
     agree_tos true
     action :nothing
+    certificate_data[:servers].uniq.each do |server|
+      server = 'apache2' if server == 'apache'
+      notifies :reload, "service[#{server}]", :delayed
+    end
   end
 end

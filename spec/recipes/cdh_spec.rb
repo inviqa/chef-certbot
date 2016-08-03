@@ -5,7 +5,7 @@ describe 'certbot::cdh' do
     cached(:chef_run) do
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite1.dev/fullchain.pem').and_return(true)
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite2.dev/fullchain.pem').and_return(true)
-      ChefSpec::SoloRunner.new(step_into: ['log']) do |node|
+      solo = ChefSpec::SoloRunner.new(step_into: ['log']) do |node|
         node.set['nginx']['sites']['mysite1'] = {
           server_name: 'mysite1.dev',
           protocols: ['http', 'https'],
@@ -22,7 +22,11 @@ describe 'certbot::cdh' do
           }
         }
         node.set['certbot']['cert-owner']['email'] = 'root@localhost'
-      end.converge(described_recipe)
+      end
+
+      solo.converge(described_recipe) do
+        solo.resource_collection.insert(Chef::Resource::Service.new('nginx', solo.run_context))
+      end
     end
 
     it "will set the nginx ssl location attributes" do
@@ -42,6 +46,11 @@ describe 'certbot::cdh' do
         agree_tos: true,
       )
     end
+
+    it "will reload nginx after the certificate is generated" do
+      resource = chef_run.certbot_certonly_webroot('shared')
+      expect(resource).to notify('service[nginx]').to(:reload).delayed
+    end
   end
 
   context 'with a split nginx site configuration' do
@@ -49,7 +58,7 @@ describe 'certbot::cdh' do
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite1.dev/fullchain.pem').and_return(true)
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite2.dev/fullchain.pem').and_return(true)
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite3.dev/fullchain.pem').and_return(true)
-      ChefSpec::SoloRunner.new(step_into: ['log']) do |node|
+      solo = ChefSpec::SoloRunner.new(step_into: ['log']) do |node|
         node.set['nginx']['sites']['mysite1'] = {
           server_name: 'mysite1.dev',
           protocols: ['http', 'https'],
@@ -84,7 +93,11 @@ describe 'certbot::cdh' do
           }
         }
         node.set['certbot']['cert-owner']['email'] = 'root@localhost'
-      end.converge(described_recipe)
+      end
+
+      solo.converge(described_recipe) do
+        solo.resource_collection.insert(Chef::Resource::Service.new('nginx', solo.run_context))
+      end
     end
 
     it "will set multiple nginx sni ssl certificate location attributes" do
