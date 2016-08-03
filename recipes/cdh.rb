@@ -27,6 +27,7 @@ group_domains = {}
   end
 end
 
+include_recipe 'certbot'
 include_recipe 'config-driven-helper::ssl-cert-self-signed'
 
 group_domains.each do |group_name, certificate_data|
