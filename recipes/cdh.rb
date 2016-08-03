@@ -12,16 +12,28 @@ group_domains = {}
     group_domains[group_name] ||= {domains:[]}
     group_domains[group_name][:domains] << site['server_name']
     group_domains[group_name][:domains] += site['server_aliases'] if site['server_aliases']
-    group_domains[group_name][:ssl] = site['ssl']
+
+    ssl_directory = "/etc/letsencrypt/live/#{group_domains[group_name][:domains].first}"
+    case server
+    when "apache"
+      group_domains[group_name][:certfile] = "#{ssl_directory}/cert.pem"
+      node.set[server]['sites'][name]['ssl']['certchainfile'] = "#{ssl_directory}/chain.pem"
+    when "nginx"
+      group_domains[group_name][:certfile] = "#{ssl_directory}/fullchain.pem"
+    end
+    node.set[server]['sites'][name]['ssl']['certfile'] = group_domains[group_name][:certfile]
+    node.set[server]['sites'][name]['ssl']['keyfile'] = "#{ssl_directory}/privkey.pem"
   end
 end
+
+include_recipe 'config-driven-helper::ssl-cert-self-signed'
 
 group_domains.each do |group_name, certificate_data|
   ssl_directory = "/etc/letsencrypt/live/#{certificate_data[:domains].first}"
   directory ssl_directory do
     action :nothing
     only_if do
-      Certbot::Util.self_signed_certificate?(certificate_data[:ssl]['certfile'])
+      Certbot::Util.self_signed_certificate?(certificate_data[:certfile])
     end
   end
 

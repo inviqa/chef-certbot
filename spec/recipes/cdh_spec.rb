@@ -25,6 +25,11 @@ describe 'certbot::cdh' do
       end.converge(described_recipe)
     end
 
+    it "will set the nginx ssl location attributes" do
+      expect(chef_run.node['nginx']['sites']['mysite1']['ssl']['certfile']).to eq '/etc/letsencrypt/live/mysite1.dev/fullchain.pem'
+      expect(chef_run.node['nginx']['sites']['mysite1']['ssl']['keyfile']).to eq '/etc/letsencrypt/live/mysite1.dev/privkey.pem'
+    end
+
     it "will create a single shared certificate" do
       resource = chef_run.log('delayed certbot_certonly_webroot execution (shared) further')
       expect(resource).to notify('certbot_certonly_webroot[shared]').to(:create).delayed
@@ -80,6 +85,20 @@ describe 'certbot::cdh' do
         }
         node.set['certbot']['cert-owner']['email'] = 'root@localhost'
       end.converge(described_recipe)
+    end
+
+    it "will set multiple nginx sni ssl certificate location attributes" do
+      expect(chef_run.node['nginx']['sites']['mysite1']['ssl']['certfile']).to eq '/etc/letsencrypt/live/mysite1.dev/fullchain.pem'
+      expect(chef_run.node['nginx']['sites']['mysite1']['ssl']['keyfile']).to eq '/etc/letsencrypt/live/mysite1.dev/privkey.pem'
+      expect(chef_run.node['nginx']['sites']['mysite2']['ssl']['certfile']).to eq '/etc/letsencrypt/live/mysite2.dev/fullchain.pem'
+      expect(chef_run.node['nginx']['sites']['mysite2']['ssl']['keyfile']).to eq '/etc/letsencrypt/live/mysite2.dev/privkey.pem'
+    end
+
+    it "will set location attributes for san certificate" do
+      expect(chef_run.node['nginx']['sites']['mysite3']['ssl']['certfile']).to eq '/etc/letsencrypt/live/mysite3.dev/fullchain.pem'
+      expect(chef_run.node['nginx']['sites']['mysite3']['ssl']['keyfile']).to eq '/etc/letsencrypt/live/mysite3.dev/privkey.pem'
+      expect(chef_run.node['nginx']['sites']['mysite4']['ssl']['certfile']).to eq '/etc/letsencrypt/live/mysite3.dev/fullchain.pem'
+      expect(chef_run.node['nginx']['sites']['mysite4']['ssl']['keyfile']).to eq '/etc/letsencrypt/live/mysite3.dev/privkey.pem'
     end
 
     it "will create a separate certificate per site when use_sni is on" do
