@@ -3,6 +3,7 @@ certbot_group_domains = {}
   next unless node[server] && node[server]['sites']
 
   node[server]['sites'].each do |name, site|
+    site = ConfigDrivenHelper::Util.merge_default_shared_site(node, name, site, server)
     next unless site['protocols'].include?('https')
 
     group_name = site['ssl'] && site['ssl']['san_group']
