@@ -25,6 +25,21 @@ group_domains.each do |group_name, certificate_data|
     end
   end
 
+  # this is to ensure nginx is definitely finished reloading by ensuring
+  # certbot_certonly_webroot is run right at the end of the chef run
+  log "delayed certbot_certonly_webroot execution (#{group_name})" do
+    message "certbot::cdh queueing actions [:create] for certbot_certonly_webroot #{group_name}"
+    notifies :write, "log[delayed certbot_certonly_webroot execution (#{group_name}) further]", :delayed
+  end
+
+  log "delayed certbot_certonly_webroot execution (#{group_name}) further" do
+    message "certbot::cdh queueing actions [:create] for certbot_certonly_webroot #{group_name}"
+    level :debug
+    notifies :delete, "directory[#{ssl_directory}]", :delayed
+    notifies :create, "certbot_certonly_webroot[#{group_name}]", :delayed
+    action :nothing
+  end
+
   certbot_certonly_webroot group_name do
     webroot_path node['certbot']['sandbox']['webroot_path']
     email node['certbot']['cert-owner']['email']
@@ -32,12 +47,5 @@ group_domains.each do |group_name, certificate_data|
     expand true
     agree_tos true
     action :nothing
-  end
-
-  log "delayed certbot_certonly_webroot execution (#{group_name})" do
-    message "certbot::cdh queueing actions [:create] for certbot_certonly_webroot #{group_name}"
-    level :debug
-    notifies :delete, "directory[#{ssl_directory}]", :delayed
-    notifies :create, "certbot_certonly_webroot[#{group_name}]", :delayed
   end
 end

@@ -26,7 +26,7 @@ describe 'certbot::cdh' do
     end
 
     it "will create a single shared certificate" do
-      resource = chef_run.log('delayed certbot_certonly_webroot execution (shared)')
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (shared) further')
       expect(resource).to notify('certbot_certonly_webroot[shared]').to(:create).delayed
 
       expect(chef_run).to create_certbot_certonly_webroot('shared').with(
@@ -83,7 +83,7 @@ describe 'certbot::cdh' do
     end
 
     it "will create a separate certificate per site when use_sni is on" do
-      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite1)')
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite1) further')
       expect(resource).to notify('certbot_certonly_webroot[mysite1]').to(:create).delayed
       expect(resource).to notify('directory[/etc/letsencrypt/live/mysite1.dev]').to(:delete).delayed
 
@@ -95,7 +95,7 @@ describe 'certbot::cdh' do
         agree_tos: true,
       )
 
-      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite2)')
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite2) further')
       expect(resource).to notify('directory[/etc/letsencrypt/live/mysite2.dev]').to(:delete).delayed
       expect(resource).to notify('certbot_certonly_webroot[mysite2]').to(:create).delayed
 
@@ -109,7 +109,7 @@ describe 'certbot::cdh' do
     end
 
     it "will create a group of certificates per san_group" do
-      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite34)')
+      resource = chef_run.log('delayed certbot_certonly_webroot execution (mysite34) further')
       expect(resource).to notify('directory[/etc/letsencrypt/live/mysite3.dev]').to(:delete).delayed
       expect(resource).to notify('certbot_certonly_webroot[mysite34]').to(:create).delayed
 
