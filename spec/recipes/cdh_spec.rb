@@ -1,6 +1,10 @@
 require 'util'
 
 describe 'certbot::cdh' do
+  before do
+    allow_any_instance_of(Chef::Recipe).to receive(:include_recipe)
+  end
+
   context 'with a shared nginx site configuration' do
     cached(:chef_run) do
       allow(Certbot::Util).to receive(:'self_signed_certificate?').with('/etc/letsencrypt/live/mysite1.dev/fullchain.pem').and_return(true)
