@@ -1,4 +1,4 @@
-group_domains = {}
+certbot_group_domains = {}
 %w{ apache nginx }.each do |server|
   next unless node[server] && node[server]['sites']
 
@@ -9,20 +9,20 @@ group_domains = {}
     group_name ||= name if site['ssl'] && site['ssl']['use_sni']
     group_name ||= 'shared'
 
-    group_domains[group_name] ||= {domains:[], servers: []}
-    group_domains[group_name][:domains] << site['server_name']
-    group_domains[group_name][:domains] += site['server_aliases'] if site['server_aliases']
-    group_domains[group_name][:servers] << server
+    certbot_group_domains[group_name] ||= {domains:[], servers: []}
+    certbot_group_domains[group_name][:domains] << site['server_name']
+    certbot_group_domains[group_name][:domains] += site['server_aliases'] if site['server_aliases']
+    certbot_group_domains[group_name][:servers] << server
 
-    ssl_directory = "/etc/letsencrypt/live/#{group_domains[group_name][:domains].first}"
+    ssl_directory = "/etc/letsencrypt/live/#{certbot_group_domains[group_name][:domains].first}"
     case server
     when "apache"
-      group_domains[group_name][:certfile] = "#{ssl_directory}/cert.pem"
+      certbot_group_domains[group_name][:certfile] = "#{ssl_directory}/cert.pem"
       node.set[server]['sites'][name]['ssl']['certchainfile'] = "#{ssl_directory}/chain.pem"
     when "nginx"
-      group_domains[group_name][:certfile] = "#{ssl_directory}/fullchain.pem"
+      certbot_group_domains[group_name][:certfile] = "#{ssl_directory}/fullchain.pem"
     end
-    node.set[server]['sites'][name]['ssl']['certfile'] = group_domains[group_name][:certfile]
+    node.set[server]['sites'][name]['ssl']['certfile'] = certbot_group_domains[group_name][:certfile]
     node.set[server]['sites'][name]['ssl']['keyfile'] = "#{ssl_directory}/privkey.pem"
   end
 end
@@ -30,7 +30,7 @@ end
 include_recipe 'certbot'
 include_recipe 'config-driven-helper::ssl-cert-self-signed'
 
-group_domains.each do |group_name, certificate_data|
+certbot_group_domains.each do |group_name, certificate_data|
   ssl_directory = "/etc/letsencrypt/live/#{certificate_data[:domains].first}"
   directory ssl_directory do
     action :nothing
