@@ -24,6 +24,6 @@ when 'package'
 when 'certbot-auto'
   remote_file node['certbot']['bin'] do
     source 'https://dl.eff.org/certbot-auto'
-    mode 755
+    mode 0755
   end
 end
