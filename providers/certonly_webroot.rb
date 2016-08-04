@@ -2,11 +2,11 @@ use_inline_resources if defined?(:use_inline_resources)
 
 action :create do
   options = {
-    'config-dir' => node['letsencrypt']['config_dir'],
-    'work-dir' => node['letsencrypt']['work_dir'],
-    'logs-dir' => node['letsencrypt']['logs_dir'],
-    'server' => node['letsencrypt']['server'],
-    'staging' => node['letsencrypt']['staging'],
+    'config-dir' => node['certbot']['config_dir'],
+    'work-dir' => node['certbot']['work_dir'],
+    'logs-dir' => node['certbot']['logs_dir'],
+    'server' => node['certbot']['server'],
+    'staging' => node['certbot']['staging'],
 
     'webroot' => true,
     'webroot-path' => new_resource.webroot_path,

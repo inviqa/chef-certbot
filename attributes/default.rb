@@ -8,11 +8,11 @@ default['certbot']['sandbox']['webroot_path'] = '/var/www/certbot'
 default['certbot']['default_cron']['predefined_value'] = '@daily'
 default['certbot']['cron_name'] = 'certbot-renew'
 
-default['letsencrypt']['config_dir'] = '/etc/letsencrypt'
-default['letsencrypt']['work_dir'] = '/var/lib/letsencrypt'
-default['letsencrypt']['logs_dir'] = '/var/log/letsencrypt'
-default['letsencrypt']['server'] = nil
-default['letsencrypt']['staging'] = false
+default['certbot']['config_dir'] = '/etc/letsencrypt'
+default['certbot']['work_dir'] = '/var/lib/letsencrypt'
+default['certbot']['logs_dir'] = '/var/log/letsencrypt'
+default['certbot']['server'] = nil
+default['certbot']['staging'] = false
 
 default['certbot']['certbot_auto_path'] = '/usr/local/bin/certbot-auto'
 default['certbot']['package'] = 'certbot'
