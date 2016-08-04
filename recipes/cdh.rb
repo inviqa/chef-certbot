@@ -1,3 +1,7 @@
+unless node['certbot']['cert-owner'] && node['certbot']['cert-owner']['email']
+  raise "You need to define a node['certbot']['cert-owner']['email'] to use certbot"
+end
+
 certbot_group_domains = {}
 %w{ apache nginx }.each do |server|
   next unless node[server] && node[server]['sites']
