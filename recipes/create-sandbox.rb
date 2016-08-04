@@ -27,17 +27,15 @@ end
 
 [
   node['certbot']['sandbox']['webroot_path'],
-  '/etc/letsencrypt',
-  '/var/lib/letsencrypt',
-  '/var/log/letsencrypt',
+  node['certbot']['config_dir'],
+  node['certbot']['work_dir'],
+  node['certbot']['logs_dir'],
 ].each do |path|
-  execute "chown #{path}" do
-    command "chown -R #{node['certbot']['sandbox']['user']}:#{node['certbot']['sandbox']['group']} #{path}"
-    action :nothing
-  end
   directory path do
     owner node['certbot']['sandbox']['user']
     group node['certbot']['sandbox']['group']
-    notifies :run, "execute[chown #{path}]", :immediately
+  end
+  execute "chown #{path}" do
+    command "chown -R #{node['certbot']['sandbox']['user']}:#{node['certbot']['sandbox']['group']} #{path}"
   end
 end

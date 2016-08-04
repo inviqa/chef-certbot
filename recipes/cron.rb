@@ -1,5 +1,15 @@
+template '/usr/local/sbin/certbot-renew.sh' do
+  variables(
+    lazy { 
+      {
+        services: node['certbot']['renew_post_services']
+      }
+    }
+  )
+end
+
 cron_d node['certbot']['cron_name'] do
-  command "su - #{node['certbot']['sandbox']['user']} -c 'certbot renew' && service nginx reload"
+  command '/usr/local/sbin/certbot-renew.sh'
   user 'root'
   (node['certbot']['cron'] || node['certbot']['default_cron']).each do |key, value|
     send key, value
