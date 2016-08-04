@@ -32,6 +32,8 @@ action :create do
   end
 
   execute "#{node['certbot']['bin']} certonly #{options_array.flatten.join(' ')}" do
-    user node['certbot']['sandbox']['user']
+    if node['certbot']['sandbox']['enabled']
+      user node['certbot']['sandbox']['user']
+    end
   end
 end

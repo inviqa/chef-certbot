@@ -38,4 +38,18 @@ describe 'fake::certonly-webroot' do
       })
     end
   end
+
+  context 'with sandbox enabled' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(step_into: ['certbot_certonly_webroot']) do |node|
+        node.set['certbot']['sandbox']['enabled'] = true
+      end.converge(described_recipe)
+    end
+
+    it "will use the sandbox user to generate certificates" do
+      expect(chef_run).to run_execute('/usr/local/bin/certbot-auto certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --agree-tos --non-interactive').with({
+        user: 'certbot'
+      })
+    end
+  end
 end

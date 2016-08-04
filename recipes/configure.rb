@@ -11,6 +11,6 @@ ruby_block 'detect web server services in use' do
   end
 end
 
-include_recipe 'certbot::create-sandbox'
+include_recipe 'certbot::create-sandbox' if node['certbot']['sandbox']['enabled']
 include_recipe 'certbot::nginx-webroot'
 include_recipe 'certbot::cron'

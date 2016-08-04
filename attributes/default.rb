@@ -1,5 +1,6 @@
 default['certbot']['auto_setup'] = true
 
+default['certbot']['sandbox']['enabled'] = false
 default['certbot']['sandbox']['user'] = 'certbot'
 default['certbot']['sandbox']['group'] = 'certbot'
 default['certbot']['sandbox']['webroot_path'] = '/var/www/certbot'

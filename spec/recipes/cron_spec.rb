@@ -68,4 +68,16 @@ describe 'certbot::cron' do
       expect(chef_run).to render_file('/usr/local/sbin/certbot-renew.sh').with_content(/^\s*service apache2 reload$/)
     end
   end
+
+  context 'with sandbox enabled' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new do |node|
+        node.set['certbot']['sandbox']['enabled'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'will run certbot as sandbox user in the cron script' do
+      expect(chef_run).to render_file('/usr/local/sbin/certbot-renew.sh').with_content(%r(^su - certbot -c "/usr/local/bin/certbot-auto renew --post-hook 'touch \$UPDATE_FLAG_FILE'"$))
+    end
+  end
 end
