@@ -27,9 +27,9 @@ end
 
 [
   node['certbot']['sandbox']['webroot_path'],
-  '/etc/letsencrypt',
-  '/var/lib/letsencrypt',
-  '/var/log/letsencrypt',
+  node['certbot']['config_dir'],
+  node['certbot']['work_dir'],
+  node['certbot']['logs_dir'],
 ].each do |path|
   execute "chown #{path}" do
     command "chown -R #{node['certbot']['sandbox']['user']}:#{node['certbot']['sandbox']['group']} #{path}"

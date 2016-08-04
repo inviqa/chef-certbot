@@ -2,6 +2,12 @@ use_inline_resources if defined?(:use_inline_resources)
 
 action :create do
   options = {
+    'config-dir' => node['letsencrypt']['config_dir'],
+    'work-dir' => node['letsencrypt']['work_dir'],
+    'logs-dir' => node['letsencrypt']['logs_dir'],
+    'server' => node['letsencrypt']['server'],
+    'staging' => node['letsencrypt']['staging'],
+
     'webroot' => true,
     'webroot-path' => new_resource.webroot_path,
     'email' => new_resource.email,
@@ -16,17 +22,16 @@ action :create do
   end
 
   options_array = options.map do |key, value|
-
     if value === true
       ["--#{key}"]
-    elsif value === false
+    elsif value === false || value.nil?
       []
     else
       ["--#{key}", value]
     end
   end
 
-  execute "certbot certonly #{options_array.flatten.join(' ')}" do
+  execute "#{node['certbot']['bin']} certonly #{options_array.flatten.join(' ')}" do
     user node['certbot']['sandbox']['user']
   end
 end

@@ -18,4 +18,12 @@
 
 include_recipe 'yum-epel' if platform_family?('rhel')
 
-package 'certbot'
+case node['certbot']['install_method']
+when 'package'
+  package node['certbot']['package']
+when 'certbot-auto'
+  remote_file node['certbot']['bin'] do
+    source 'https://dl.eff.org/certbot-auto'
+    mode 755
+  end
+end

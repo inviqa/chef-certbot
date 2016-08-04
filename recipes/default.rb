@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if node['certbot']['auto-setup']
+if node['certbot']['auto_setup']
   include_recipe 'certbot::install'
   include_recipe 'certbot::configure'
 end
