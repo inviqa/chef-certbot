@@ -18,6 +18,7 @@ default['certbot']['certbot_auto_path'] = '/usr/local/bin/certbot-auto'
 default['certbot']['package'] = 'certbot'
 
 default['certbot']['renew_post_services'] = {}
+default['certbot']['services'] = {}
 
 if platform_family?('rhel') && node['platform_version'].to_i >= 7
   default['certbot']['install_method'] = 'package'
