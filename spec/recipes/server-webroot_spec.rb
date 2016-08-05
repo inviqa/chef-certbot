@@ -1,6 +1,7 @@
 describe 'certbot::server-webroots' do
   context 'with nginx in run_list' do
     cached(:chef_run) do
+      stub_command("which nginx").and_return('/usr/bin/nginx')
       ChefSpec::SoloRunner.new(step_into: ['ruby_block']).converge('fake::configure-nginx')
     end
 

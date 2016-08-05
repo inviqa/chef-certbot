@@ -1,9 +1,7 @@
 describe 'certbot::create-sandbox' do
   context 'with default configuration' do
     cached(:chef_run) do
-      ChefSpec::SoloRunner.new do |node|
-        node['certbot']['sandbox']['enabled'] = true
-      end.converge(described_recipe)
+      ChefSpec::SoloRunner.new.converge(described_recipe)
     end
 
     it "will create a sandbox user and group" do
