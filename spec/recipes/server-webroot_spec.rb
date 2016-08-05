@@ -7,6 +7,10 @@ describe 'certbot::server-webroots' do
     it "will create a nginx configuration for certbot webroot plugin" do
       expect(chef_run).to create_template('/etc/nginx/certbot.conf')
     end
+
+    it "will set up access to certbot's webroot" do
+      expect(chef_run).to create_directory('/var/www/certbot')
+    end
   end
 
   context 'with apache2 in run_list' do

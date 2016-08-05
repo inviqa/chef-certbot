@@ -1,3 +1,5 @@
+directory node['certbot']['sandbox']['webroot_path']
+
 template "#{node['nginx']['dir']}/certbot.conf" do
   source 'certbot-nginx.conf.erb'
   only_if { node['certbot']['services']['nginx'] }
