@@ -6,6 +6,7 @@ template '/usr/local/sbin/certbot-renew.sh' do
       }
     }
   )
+  mode 0755
 end
 
 cron_d node['certbot']['cron_name'] do
