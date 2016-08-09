@@ -9,34 +9,29 @@ Add `"recipe[certbot-cdh]"` to enable it.
 
 Remove any SSLs which are stored within data bags.
 
-Finally, include the following in the default attributes:
+Add the following to the project's Berksfile:
+
+```text
+cookbook 'certbot', :github => 'inviqa/chef-certbot', :branch => 'master'
+```
+
+Add the cookbook to the run list:
 
 ```json
-"default_attributes": {
-  "certbot": {
-    "cert-owner": {
-      "email": "devops@inviqa.com"
-    }
-  },
-  "nginx": {
-    "shared_config": {
-      "<project-name": {
-        "protocols": ["http", "https"],
-        "includes_first": [
-          "certbot.conf"
-        ]
-      }
-    }
-  }
+"run_list": {
+  "recipe[certbot]"
 }
 ```
 
-Add the following cookbooks to the Berksfile:
+Finally create a custom recipe, such as this:
 
 ```text
-cookbook 'config-driven-helper', '~> 2.5'
-cookbook 'certbot', :github => 'inviqa/chef-certbot', :branch => 'master'
-cookbook 'certbot-cdh', :github => 'inviqa/chef-certbot-cdh', :branch => 'master'
+certbot_certonly_webroot 'something' do
+   webroot_path '/var/www/certbot'
+   email 'devops@example.com'
+   domains ['domain1.com', 'domain2.com']
+   agree_tos true
+end
 ```
 
 License and Authors
@@ -45,7 +40,7 @@ License and Authors
 - Author:: Felicity Ratcliffe
 
 ```text
-Copyright:: 2014-2015 The Inviqa Group Ltd
+Copyright:: 2016 The Inviqa Group Ltd
 
 See LICENSE file
 ```
