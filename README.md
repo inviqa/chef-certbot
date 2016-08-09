@@ -12,7 +12,7 @@ Remove any SSLs which are stored within data bags.
 Add the following to the project's Berksfile:
 
 ```text
-cookbook 'certbot', :github => 'inviqa/chef-certbot', :branch => 'master'
+cookbook 'certbot', '~> 0.1.0'
 ```
 
 Add the cookbook to the run list:
