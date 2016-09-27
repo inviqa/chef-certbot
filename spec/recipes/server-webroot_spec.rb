@@ -20,8 +20,21 @@ describe 'certbot::server-webroots' do
       ChefSpec::SoloRunner.new(step_into: ['ruby_block']).converge('fake::configure-apache2')
     end
 
-    it "will create a nginx configuration for certbot webroot plugin" do
+    it "will create an apache configuration for certbot webroot plugin" do
       expect(chef_run).to create_template('/etc/apache2/certbot.conf')
+    end
+  end
+
+  context 'apache version is 2.4' do
+    cached(:chef_run) do
+      solo = ChefSpec::SoloRunner.new do |node|
+        node.set['apache']['version'] = '2.4'
+      end
+    end
+
+    it "will create an apache configuration for certbot webroot plugin" do
+      expect(chef_run).to create_template('/etc/apache2/certbot.conf')
+        .with_content('Require all granted')
     end
   end
 end
