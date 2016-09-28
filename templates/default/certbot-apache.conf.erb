@@ -1,1 +1,10 @@
 Alias "/.well-known/acme-challenge" "<%= node['certbot']['sandbox']['webroot_path'] %>/.well-known/acme-challenge"
+
+<Directory <%= node['certbot']['sandbox']['webroot_path'] %>/.well-known/acme-challenge>
+<% if node['apache']['version'].to_f >= 2.4 -%>
+Require all granted
+<% else -%>
+Order allow,deny
+Allow from all
+<% end -%>
+</Directory>

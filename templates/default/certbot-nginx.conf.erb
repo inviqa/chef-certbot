@@ -1,3 +1,5 @@
-location /.well-known/acme-challenge {
+location ^~ /.well-known/acme-challenge {
   alias <%= node['certbot']['sandbox']['webroot_path'] %>/.well-known/acme-challenge;
+  satisfy any;
+  allow all;
 }
