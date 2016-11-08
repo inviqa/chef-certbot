@@ -1,3 +1,9 @@
+## 0.1.2 (08 Nov 2016)
+
+BUGFIXES:
+
+  * Correct renewal script quotes for shell variable expansion #11
+
 ## 0.1.1 (28 Sep 2016)
 
 BUGFIXES:
