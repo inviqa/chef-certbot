@@ -3,9 +3,9 @@ UPDATE_FLAG_FILE=/var/lib/letsencrypt/updated
 
 rm -f $UPDATE_FLAG_FILE
 <% if node['certbot']['sandbox']['enabled'] -%> 
-su - <%=node['certbot']['sandbox']['user'] %> -c "<%= node['certbot']['bin'] %> renew --post-hook 'touch $UPDATE_FLAG_FILE'"
+su - <%=node['certbot']['sandbox']['user'] %> -c "<%= node['certbot']['bin'] %> renew --post-hook \"touch $UPDATE_FLAG_FILE\""
 <% else -%>
-<%= node['certbot']['bin'] %> renew --post-hook 'touch $UPDATE_FLAG_FILE'
+<%= node['certbot']['bin'] %> renew --post-hook "touch $UPDATE_FLAG_FILE"
 <% end -%> 
 
 if [ $? -gt 0 ]; then
