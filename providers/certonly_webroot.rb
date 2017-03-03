@@ -6,7 +6,6 @@ action :create do
     'work-dir' => node['certbot']['work_dir'],
     'logs-dir' => node['certbot']['logs_dir'],
     'server' => node['certbot']['server'],
-    'staging' => node['certbot']['staging'],
 
     'webroot' => true,
     'webroot-path' => new_resource.webroot_path,
@@ -14,6 +13,8 @@ action :create do
     'domains' =>  new_resource.domains.join(','),
     'expand' => new_resource.expand,
     'agree-tos' => new_resource.agree_tos,
+    'rsa-key-size' => new_resource.rsa_key_size,
+    'staging' => new_resource.staging,
     'non-interactive' => true
   }
 
