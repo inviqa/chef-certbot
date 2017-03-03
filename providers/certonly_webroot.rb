@@ -22,17 +22,18 @@ action :create do
     raise 'You need to agree to the Terms of Service by setting agree_tos true'
   end
 
-  options_array = options.map do |key, value|
-    if value === true
-      ["--#{key}"]
-    elsif value === false || value.nil?
-      []
-    else
-      ["--#{key}", value]
-    end
+  chef_gem 'inifile'
+
+  require 'inifile'
+  iniobject = IniFile.new(options)
+
+  configfile = "#{node['certbot']['work_dir']}/#{new_resource.name}.ini"
+  file configfile do
+    content iniobject.to_s
+    mode "0640"
   end
 
-  execute "#{node['certbot']['bin']} certonly #{options_array.flatten.join(' ')}" do
+  execute "#{node['certbot']['bin']} certonly --config #{configfile}" do
     if node['certbot']['sandbox']['enabled']
       user node['certbot']['sandbox']['user']
     end
