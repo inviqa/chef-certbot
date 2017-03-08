@@ -48,7 +48,7 @@ action :create do
     mode "0640"
   end
 
-  execute "#{node['certbot']['bin']} certonly --config #{configfile}" do
+  execute "#{node['certbot']['bin']} certonly --non-interactive --config #{configfile}" do
     if node['certbot']['sandbox']['enabled']
       user node['certbot']['sandbox']['user']
     end
