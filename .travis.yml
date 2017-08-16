@@ -1,5 +1,11 @@
 language: ruby
 sudo: false
+addons:
+  apt:
+    sources:
+      - chef-current-trusty
+    packages:
+      - chefdk
 bundler_args: --without integration --deployment --jobs=3 --retry=3
 cache: bundler
 rvm:
