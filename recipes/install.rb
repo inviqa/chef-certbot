@@ -20,6 +20,12 @@ include_recipe 'yum-epel' if platform_family?('rhel')
 
 case node['certbot']['install_method']
 when 'package'
+  if platform?('ubuntu')
+    apt_repository 'certbot' do
+      uri          'ppa:certbot/certbot'
+      distribution node['lsb']['codename']
+    end
+  end
   package node['certbot']['package']
 when 'certbot-auto'
   remote_file node['certbot']['bin'] do
