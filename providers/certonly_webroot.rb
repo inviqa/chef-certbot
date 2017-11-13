@@ -6,6 +6,7 @@ action :create do
     'work-dir' => node['certbot']['work_dir'],
     'logs-dir' => node['certbot']['logs_dir'],
 
+    'cert-name' => new_resource.cert_name ? new_resource.cert_name : new_resource.name,
     'authenticator' => 'webroot',
     'webroot' => true,
     'webroot-path' => new_resource.webroot_path,
