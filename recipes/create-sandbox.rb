@@ -34,6 +34,7 @@ end
   directory path do
     owner node['certbot']['sandbox']['user']
     group node['certbot']['sandbox']['group']
+    recursive true
   end
   execute "chown #{path}" do
     command "chown -R #{node['certbot']['sandbox']['user']}:#{node['certbot']['sandbox']['group']} #{path}"

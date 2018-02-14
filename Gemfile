@@ -13,6 +13,7 @@ group :test do
   gem 'foodcritic', '~> 6.0'
   gem 'nokogiri', '~> 1.6.3.1'
   gem 'rubocop', '~> 0.39.0'
+  gem 'inifile'
 end
 
 group :deployment do

@@ -109,6 +109,7 @@ GEM
     highline (1.7.8)
     hitimes (1.2.4)
     httpclient (2.7.2)
+    inifile (3.0.0)
     ipaddress (0.8.3)
     json (2.0.1)
     kitchen-vagrant (0.20.0)
@@ -270,6 +271,7 @@ DEPENDENCIES
   berkshelf (~> 4.0)
   chefspec (~> 4.4)
   foodcritic (~> 6.0)
+  inifile
   kitchen-vagrant (~> 0.20.0)
   nokogiri (~> 1.6.3.1)
   rake (~> 10.1)
@@ -278,4 +280,4 @@ DEPENDENCIES
   test-kitchen (~> 1.7)
 
 BUNDLED WITH
-   1.12.5
+   1.16.1

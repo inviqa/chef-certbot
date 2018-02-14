@@ -2,3 +2,4 @@
 .kitchen.local.yml
 Berksfile.lock
 test/Berksfile.lock
+.ruby-version

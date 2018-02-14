@@ -10,7 +10,7 @@ Remove any SSLs which are stored within data bags.
 Add the following to the project's Berksfile:
 
 ```text
-cookbook 'certbot', '~> 0.1.0'
+cookbook 'certbot', '~> 0.2.0'
 ```
 
 Add the cookbook to the run list:
@@ -28,14 +28,17 @@ certbot_certonly_webroot 'something' do
    webroot_path '/var/www/certbot'
    email 'devops@example.com'
    domains ['domain1.com', 'domain2.com']
+   expand true (default: false)
    agree_tos true
+   rsa-key-size 4096 (default: 2048)
+   staging true (default: false)
 end
 ```
 
 You will need the cookbook which contains the recipe to depend on it in its metadata.rb to be able to use the resource:
 
 ```text
-depends 'certbot', '~> 0.1.0'
+depends 'certbot', '~> 0.2.0'
 ```
 
 License and Authors
