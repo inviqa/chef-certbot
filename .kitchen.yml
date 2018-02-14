@@ -4,6 +4,7 @@ driver:
 
 provisioner:
   name: chef_solo
+  require_chef_omnibus: "12"
 
 platforms:
   - name: ubuntu-14.04
@@ -13,4 +14,12 @@ suites:
   - name: default
     run_list:
       - recipe[certbot::default]
+      - recipe[test-helper::default]
+  - name: default-sandbox
+    run_list:
+      - recipe[certbot::default]
+      - recipe[test-helper::default]
     attributes:
+      certbot:
+        sandbox:
+          enabled: true
