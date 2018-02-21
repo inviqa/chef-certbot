@@ -2,7 +2,7 @@ describe 'certbot::server-webroots' do
   context 'with nginx in run_list' do
     cached(:chef_run) do
       stub_command("which nginx").and_return('/usr/bin/nginx')
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04', step_into: ['ruby_block']).converge('fake::configure-nginx')
+      ChefSpec::SoloRunner.new(step_into: ['ruby_block']).converge('fake::configure-nginx')
     end
 
     it "will create a nginx configuration for certbot webroot plugin" do
@@ -17,7 +17,7 @@ describe 'certbot::server-webroots' do
   context 'with apache2 in run_list' do
     cached(:chef_run) do
       stub_command("/usr/sbin/apache2 -t")
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04', step_into: ['ruby_block']).converge('fake::configure-apache2')
+      ChefSpec::SoloRunner.new(step_into: ['ruby_block']).converge('fake::configure-apache2')
     end
 
     it "will create an apache configuration for certbot webroot plugin" do
@@ -28,7 +28,7 @@ describe 'certbot::server-webroots' do
   context 'apache version is 2.2' do
     cached(:chef_run) do
       stub_command("/usr/sbin/apache2 -t")
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04') do |node|
+      ChefSpec::SoloRunner.new do |node|
         node.set['apache']['version'] = '2.2'
         node.set['certbot']['services']['apache2'] = true
       end.converge('fake::configure-apache2')
@@ -43,7 +43,7 @@ describe 'certbot::server-webroots' do
   context 'apache version is 2.4' do
     cached(:chef_run) do
       stub_command("/usr/sbin/apache2 -t")
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04') do |node|
+      ChefSpec::SoloRunner.new do |node|
         node.set['apache']['version'] = '2.4'
         node.set['certbot']['services']['apache2'] = true
       end.converge('fake::configure-apache2')
