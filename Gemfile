@@ -12,8 +12,7 @@ group :test do
   gem 'chefspec', '~> 4.4'
   gem 'chef', '~> 12.0'
   gem 'foodcritic', '~> 6.0'
-  gem 'nokogiri', '~> 1.6.3.1'
-  gem 'rubocop', '~> 0.39.0'
+  gem 'rubocop', '~> 0.49.0'
 end
 
 group :deployment do
