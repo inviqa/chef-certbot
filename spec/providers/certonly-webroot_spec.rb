@@ -5,13 +5,13 @@ describe 'fake::certonly-webroot' do
     end
 
     it "will create a single domain certificate" do
-      expect(chef_run).to run_execute('/usr/local/bin/certbot-auto certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --agree-tos --non-interactive').with({
+      expect(chef_run).to run_execute('certbot certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --agree-tos --non-interactive').with({
         user: nil
       })
     end
 
     it "will create a multi domain certificate" do
-      expect(chef_run).to run_execute('/usr/local/bin/certbot-auto certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite2.dev,js.mysite2.dev,css.mysite2.dev --expand --agree-tos --non-interactive').with({
+      expect(chef_run).to run_execute('certbot certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite2.dev,js.mysite2.dev,css.mysite2.dev --expand --agree-tos --non-interactive').with({
         user: nil
       })
     end
@@ -47,7 +47,7 @@ describe 'fake::certonly-webroot' do
     end
 
     it "will use the sandbox user to generate certificates" do
-      expect(chef_run).to run_execute('/usr/local/bin/certbot-auto certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --agree-tos --non-interactive').with({
+      expect(chef_run).to run_execute('certbot certonly --config-dir /etc/letsencrypt --work-dir /var/lib/letsencrypt --logs-dir /var/log/letsencrypt --webroot --webroot-path /var/www/certbot --email root@localhost --domains mysite1.dev --agree-tos --non-interactive').with({
         user: 'certbot'
       })
     end

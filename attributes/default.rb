@@ -26,10 +26,16 @@ if platform_family?('rhel') && node['platform_version'].to_i >= 7
 elsif platform_family?('fedora') && node['platform_version'].to_i >= 23
   default['certbot']['install_method'] = 'package'
   default['certbot']['bin'] = 'certbot'
-elsif platform?('ubuntu') && node['plaform_version'].to_f > 16.04
+elsif platform?('ubuntu') && node['platform_version'].to_f >= 14.04
   default['certbot']['install_method'] = 'package'
-  default['certbot']['package'] = 'letsencrypt'
-  default['certbot']['bin'] = 'letsencrypt'
+  default['certbot']['package'] = 'certbot'
+  default['certbot']['bin'] = 'certbot'
+
+  default['certbot']['apt_repository'] = {
+    name: "certbot-ubuntu-certbot-#{node['lsb']['codename']}",
+    uri: 'ppa:certbot/certbot',
+    distribution: node['lsb']['codename']
+  }
 else
   default['certbot']['install_method'] = 'certbot-auto'
   default['certbot']['bin'] = node['certbot']['certbot_auto_path']

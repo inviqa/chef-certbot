@@ -6,7 +6,7 @@ RSpec.configure do |config|
   config.platform = 'ubuntu'                                                   
 
   # Specify the operating version to mock Ohai data from                        
-  config.version = '14.04'
+  config.version = '16.04'
 end
 
 lib = File.expand_path('../../libraries', __FILE__)
