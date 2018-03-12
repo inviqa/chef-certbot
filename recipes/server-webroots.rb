@@ -1,4 +1,6 @@
-directory node['certbot']['sandbox']['webroot_path']
+directory node['certbot']['sandbox']['webroot_path'] do
+  recursive true
+end
 
 template "#{node['nginx']['dir']}/certbot.conf" do
   source 'certbot-nginx.conf.erb'
