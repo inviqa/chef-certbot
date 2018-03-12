@@ -16,7 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'yum-epel' if platform_family?('rhel')
+if node['certbot']['install_method'] == 'package'
+  include_recipe 'yum-epel' if platform_family?('rhel')
+
+  apt_repository node['certbot']['apt_repository']['name'] do
+    node['certbot']['apt_repository'].each do |key, value|
+      send key, value
+    end
+  end if node['certbot']['apt_repository']
+end
 
 case node['certbot']['install_method']
 when 'package'
