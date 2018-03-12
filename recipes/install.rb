@@ -26,4 +26,7 @@ when 'certbot-auto'
     source 'https://dl.eff.org/certbot-auto'
     mode 0755
   end
+
+  # run certbot-auto to install its dependencies
+  execute "'#{node['certbot']['bin']}' --os-packages-only --non-interactive"
 end
