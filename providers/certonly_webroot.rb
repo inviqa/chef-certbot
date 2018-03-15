@@ -3,17 +3,21 @@ use_inline_resources if defined?(:use_inline_resources)
 action :create do
   options = {
     'config-dir' => node['certbot']['config_dir'],
-    'work-dir' => node['certbot']['work_dir'],
     'logs-dir' => node['certbot']['logs_dir'],
+    'work-dir' => node['certbot']['work_dir'],
     'server' => node['certbot']['server'],
-    'staging' => node['certbot']['staging'],
 
     'webroot' => true,
     'webroot-path' => new_resource.webroot_path,
-    'email' => new_resource.email,
+
     'domains' =>  new_resource.domains.join(','),
+    'email' => new_resource.email,
     'expand' => new_resource.expand,
+    'rsa-key-size' => new_resource.rsa_key_size,
+    'staging' => new_resource.staging || node['certbot']['staging'],
+
     'agree-tos' => new_resource.agree_tos,
+
     'non-interactive' => true
   }
 
