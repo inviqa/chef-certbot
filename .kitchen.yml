@@ -4,7 +4,6 @@ driver:
 
 provisioner:
   name: chef_solo
-  require_chef_omnibus: '12' # some dependent cookbooks aren't Chef 13 ready
 
 platforms:
   - name: ubuntu-14.04
