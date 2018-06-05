@@ -12,7 +12,7 @@ describe 'certbot::cron' do
       })
     end
     it 'will create the cron script' do
-      expect(chef_run).to render_file('/usr/local/sbin/certbot-renew.sh').with_content(%r(^certbot renew --post-hook "touch \$UPDATE_FLAG_FILE"$))
+      expect(chef_run).to render_file('/usr/local/sbin/certbot-renew.sh').with_content(%r(^certbot renew --quiet --post-hook "touch \$UPDATE_FLAG_FILE"$))
     end
   end
 
