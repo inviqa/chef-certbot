@@ -8,4 +8,4 @@ version '0.1.0'
 
 depends 'certbot'
 depends 'apache2'
-depends 'nginx', '< 3'
+depends 'nginx'
