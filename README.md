@@ -26,9 +26,12 @@ Finally create a custom recipe, such as this:
 ```text
 certbot_certonly_webroot 'something' do
    webroot_path '/var/www/certbot'
-   email 'devops@example.com'
    domains ['domain1.com', 'domain2.com']
-   agree_tos true
+   email 'devops@example.com'
+   expand true (default: false)
+   rsa_key_size 4096 (default: 2048)
+   staging true (default: false)
+   agree_tos true (default: false)
 end
 ```
 
