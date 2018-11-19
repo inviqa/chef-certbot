@@ -23,7 +23,7 @@ when 'package'
   package node['certbot']['package']
 when 'certbot-auto'
   remote_file node['certbot']['bin'] do
-    source 'https://dl.eff.org/certbot-auto'
+    source 'https://raw.githubusercontent.com/certbot/certbot/master/certbot-auto'
     mode 0755
   end
 end
