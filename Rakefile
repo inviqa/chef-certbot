@@ -14,13 +14,13 @@ namespace :style do
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = {
       fail_tags: ['any'],
-      exclude_paths: ['spec/', 'test/']
+      exclude_paths: ['spec/', 'test/'],
     }
   end
 end
 
 desc 'Run all style checks'
-task :style => %w( style:chef style:ruby )
+task style: %w( style:chef style:ruby )
 
 # Rspec and ChefSpec
 desc 'Run ChefSpec examples'
@@ -38,6 +38,6 @@ namespace :integration do
   end
 end
 
-task :travis => %w( style:chef spec )
+task travis: %w( style:chef spec )
 
-task :test => %w( style:chef spec integration:vagrant )
+task test: %w( style:chef spec integration:vagrant )

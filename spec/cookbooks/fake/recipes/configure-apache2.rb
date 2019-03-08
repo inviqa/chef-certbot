@@ -1,2 +1,3 @@
 include_recipe 'certbot::configure'
-include_recipe 'apache2'
+
+apache2_install ''

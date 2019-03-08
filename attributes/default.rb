@@ -34,7 +34,7 @@ elsif platform?('ubuntu') && node['platform_version'].to_f >= 14.04
   default['certbot']['apt_repository'] = {
     name: "certbot-ubuntu-certbot-#{node['lsb']['codename']}",
     uri: 'ppa:certbot/certbot',
-    distribution: node['lsb']['codename']
+    distribution: node['lsb']['codename'],
   }
 else
   default['certbot']['install_method'] = 'certbot-auto'
