@@ -1,7 +1,7 @@
 ruby_block 'detect web server services in use' do
   block do
     if run_context.loaded_recipe?('nginx')
-      node.default['certbot']['renew_post_services']['nginx'] = 'reload'
+      node.default['certbot']['renew_post_services']['nginx'] = 'restart'
       node.default['certbot']['services']['nginx'] = true
     end
     if run_context.loaded_recipe?('apache2')
