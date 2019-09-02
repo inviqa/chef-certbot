@@ -22,8 +22,15 @@ case node['certbot']['install_method']
 when 'package'
   package node['certbot']['package']
 when 'certbot-auto'
-  remote_file node['certbot']['bin'] do
-    source 'https://raw.githubusercontent.com/certbot/certbot/master/certbot-auto'
-    mode 0755
+  if node['platform'] == 'ubuntu' && node['platform_version'].to_f <= 12.04
+    remote_file node['certbot']['bin'] do
+      source 'https://raw.githubusercontent.com/certbot/certbot/0.31.x/certbot-auto'
+      mode 0755
+    end
+  else
+    remote_file node['certbot']['bin'] do
+      source 'https://raw.githubusercontent.com/certbot/certbot/master/certbot-auto'
+      mode 0755
+    end
   end
 end

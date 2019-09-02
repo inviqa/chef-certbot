@@ -16,7 +16,9 @@ action :create do
     'agree-tos' => new_resource.agree_tos,
     'rsa-key-size' => new_resource.rsa_key_size,
     'staging' => new_resource.staging,
-    'non-interactive' => true
+    'non-interactive' => true,
+    'no-bootstrap' => true,
+    'no-self-upgrade' => true
   }
 
   if node['certbot']['server'] && !new_resource.staging
