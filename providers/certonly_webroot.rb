@@ -17,7 +17,6 @@ action :create do
     'rsa-key-size' => new_resource.rsa_key_size,
     'staging' => new_resource.staging,
     'non-interactive' => true,
-    'no-bootstrap' => true,
     'no-self-upgrade' => true
   }
 
@@ -51,7 +50,7 @@ action :create do
     mode "0640"
   end
 
-  execute "#{node['certbot']['bin']} certonly --non-interactive --config #{configfile}" do
+  execute "#{node['certbot']['bin']} certonly --non-interactive --no-self-upgrade --config #{configfile}" do
     if node['certbot']['sandbox']['enabled']
       user node['certbot']['sandbox']['user']
     end
