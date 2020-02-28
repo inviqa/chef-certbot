@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'rake', '~> 10.1'
+gem 'rake', '~> 12.3'
 gem 'berkshelf', '~> 4.0'
 
 group :integration do
