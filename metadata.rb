@@ -4,7 +4,7 @@ maintainer_email 'athompson@inviqa.com'
 license 'apache2'
 description 'Installs/Configures certbot'
 long_description 'Installs/Configures certbot'
-version '0.3.3'
+version '0.3.4'
 
 issues_url 'https://github.com/inviqa/chef-certbot/issues'
 source_url 'https://github.com/inviqa/chef-certbot'

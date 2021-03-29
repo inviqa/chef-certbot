@@ -6,6 +6,7 @@ default['certbot']['sandbox']['group'] = 'certbot'
 default['certbot']['sandbox']['webroot_path'] = '/var/www/certbot'
 
 default['certbot']['default_cron']['predefined_value'] = '@daily'
+default['certbot']['cron_enabled'] = true
 default['certbot']['cron_name'] = 'certbot-renew'
 
 default['certbot']['config_dir'] = '/etc/letsencrypt'
