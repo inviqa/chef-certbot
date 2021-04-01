@@ -10,7 +10,7 @@ template '/usr/local/sbin/certbot-renew.sh' do
 end
 
 cron_d node['certbot']['cron_name'] do
-  action ? node['certbot']['cron_enabled'] : :create : :delete
+  action node['certbot']['cron_enabled'] ? :create : :delete
   command '/usr/local/sbin/certbot-renew.sh'
   user 'root'
   (node['certbot']['cron'] || node['certbot']['default_cron']).each do |key, value|
