@@ -19,6 +19,8 @@
 include_recipe 'yum-epel' if platform_family?('rhel')
 
 case node['certbot']['install_method']
+when 'snap'
+  include_recipe 'certbot::snap'
 when 'package'
   package node['certbot']['package']
 when 'certbot-auto'
