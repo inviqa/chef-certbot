@@ -20,10 +20,6 @@ package node['certbot']['package'] do
   action :purge
 end
 
-remote_file node['certbot']['bin'] do
-  action :delete
-end
-
 package 'snapd'
 
 execute 'install certbot snap' do
@@ -32,7 +28,7 @@ execute 'install certbot snap' do
   only_if { ::File.exist?('/usr/bin/snap') }
 end
 
-link '/usr/bin/certbot' do
+link node['certbot']['bin'] do
   to '/snap/bin/certbot'
   action :create
 end
